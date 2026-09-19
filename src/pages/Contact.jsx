@@ -63,6 +63,7 @@ const BUSINESS_HOURS = [
 ]
 
 const EMPTY_FORM = { name: '', company: '', email: '', phone: '', country: '', city: '', product: '', message: '' }
+const CONTACT_EMAIL = 'info@oracle-machines.com'
 
 export default function Contact() {
   usePageMeta('Contact Us | Oracle Machine Tech', 'Contact Oracle Machine Tech - Get in touch for inquiries and support')
@@ -86,6 +87,23 @@ export default function Contact() {
       setStatus('error')
       return
     }
+
+    const subject = `Inquiry from ${name}${form.product ? ` - ${form.product}` : ''}`
+    const bodyLines = [
+      `Name: ${name}`,
+      form.company && `Company: ${form.company}`,
+      `Email: ${email}`,
+      `Phone: ${phone}`,
+      form.country && `Country: ${form.country}`,
+      form.city && `City: ${form.city}`,
+      form.product && `Interested Product: ${form.product}`,
+      '',
+      'Message:',
+      message,
+    ].filter(Boolean)
+
+    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`
+    window.location.href = mailtoUrl
 
     setStatus('success')
     setForm(EMPTY_FORM)
@@ -126,7 +144,7 @@ export default function Contact() {
             {status === 'success' && (
               <div className="alert-message success">
                 <i className="fas fa-check-circle" />
-                Thank you! Your message has been sent successfully. We&apos;ll be in touch soon.
+                Thanks! We&apos;ve opened your email app with your message ready to send to {CONTACT_EMAIL} — just hit send.
               </div>
             )}
             {status === 'error' && (
