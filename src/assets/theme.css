@@ -141,9 +141,10 @@ a:hover {
   color: var(--accent-orange) !important;
 }
 
-.navbar-logo {
-  height: 48px;
-  width: auto;
+.navbar-brand .navbar-logo {
+  height: 48px !important;
+  max-height: 48px !important;
+  width: auto !important;
   display: block;
 }
 
