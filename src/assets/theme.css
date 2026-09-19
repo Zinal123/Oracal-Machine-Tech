@@ -141,6 +141,12 @@ a:hover {
   color: var(--accent-orange) !important;
 }
 
+.navbar-logo {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
 .navbar-nav .nav-link {
   color: var(--text-light) !important;
   font-weight: 500;

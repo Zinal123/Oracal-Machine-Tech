@@ -18,7 +18,6 @@ export default function ProductDetails() {
   const product = getProductById(id)
   const related = product ? getRelatedProducts(product.id) : []
   const [slide, setSlide] = useState(0)
-  const [inquirySent, setInquirySent] = useState(false)
   const [openFaq, setOpenFaq] = useState(0)
 
   usePageMeta(
@@ -28,7 +27,6 @@ export default function ProductDetails() {
 
   useEffect(() => {
     setSlide(0)
-    setInquirySent(false)
     window.scrollTo({ top: 0 })
   }, [id])
 
@@ -49,12 +47,6 @@ export default function ProductDetails() {
         </div>
       </section>
     )
-  }
-
-  const handleInquirySubmit = (e) => {
-    e.preventDefault()
-    setInquirySent(true)
-    e.target.reset()
   }
 
   return (
@@ -237,20 +229,6 @@ export default function ProductDetails() {
         </div>
       </section>
 
-      {/* Product Gallery */}
-      <section className="section-padding">
-        <div className="container">
-          <PdSectionHeader title="Product Gallery" />
-          <Reveal as="div" className="gallery-grid">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div className="gallery-item" key={i}>
-                <i className="fas fa-image" />
-              </div>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
       {/* FAQ */}
       <section className="section-padding" style={{ background: 'var(--bg-light)' }}>
         <div className="container">
@@ -296,67 +274,6 @@ export default function ProductDetails() {
                 </div>
               </Link>
             ))}
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Inquiry Form */}
-      <section className="section-padding" style={{ background: 'var(--bg-light)' }}>
-        <div className="container">
-          <PdSectionHeader title="Request a Quote" />
-          <Reveal as="div" className="row">
-            <div className="col-lg-8 mx-auto">
-              <div className="inquiry-form">
-                {inquirySent && (
-                  <div className="alert alert-success" role="alert">
-                    Thank you for your inquiry! We will get back to you soon.
-                  </div>
-                )}
-                <form onSubmit={handleInquirySubmit}>
-                  <div className="row g-3">
-                    <div className="col-md-6 form-group">
-                      <label className="form-label">Full Name *</label>
-                      <input type="text" className="form-control" required />
-                    </div>
-                    <div className="col-md-6 form-group">
-                      <label className="form-label">Company Name</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="col-md-6 form-group">
-                      <label className="form-label">Email Address *</label>
-                      <input type="email" className="form-control" required />
-                    </div>
-                    <div className="col-md-6 form-group">
-                      <label className="form-label">Phone Number *</label>
-                      <input type="tel" className="form-control" required />
-                    </div>
-                    <div className="col-md-6 form-group">
-                      <label className="form-label">Country</label>
-                      <select className="form-select">
-                        <option value="">Select Country</option>
-                        <option>India</option>
-                        <option>USA</option>
-                        <option>Germany</option>
-                        <option>UK</option>
-                        <option>Japan</option>
-                        <option>China</option>
-                      </select>
-                    </div>
-                    <div className="col-md-6 form-group">
-                      <label className="form-label">City</label>
-                      <input type="text" className="form-control" />
-                    </div>
-                    <div className="col-12 form-group">
-                      <label className="form-label">Message / Inquiry Details *</label>
-                      <textarea className="form-control" rows={5} required />
-                    </div>
-                  </div>
-                  <button type="submit" className="btn btn-primary">
-                    <i className="fas fa-paper-plane" /> Send Inquiry
-                  </button>
-                </form>
-              </div>
-            </div>
           </Reveal>
         </div>
       </section>

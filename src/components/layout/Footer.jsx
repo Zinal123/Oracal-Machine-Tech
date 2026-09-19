@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import logo from '../../assets/images/oracle-logo-navbar.png'
 
 export default function Footer({ contactEmail = 'info@oraclemachinetech.com' }) {
   const [subscribed, setSubscribed] = useState(false)
@@ -16,7 +17,7 @@ export default function Footer({ contactEmail = 'info@oraclemachinetech.com' }) 
       <div className="container">
         <div className="row mb-5">
           <div className="col-lg-3 col-md-6 footer-section">
-            <h5>About Oracle</h5>
+            <img src={logo} alt="Oracle Machine Tech" style={{ height: '42px', marginBottom: '1rem' }} />
             <p>
               Leading manufacturer of CNC and Fiber Laser machines since 2010. Serving global
               industries with precision and innovation.
@@ -96,6 +97,12 @@ export default function Footer({ contactEmail = 'info@oraclemachinetech.com' }) 
             &copy; {new Date().getFullYear()} Oracle Machine Tech. All rights reserved. |{' '}
             <a href="#privacy" onClick={(e) => e.preventDefault()}>Privacy Policy</a> |{' '}
             <a href="#terms" onClick={(e) => e.preventDefault()}>Terms &amp; Conditions</a>
+          </p>
+          <p>
+            Developed by{' '}
+            <a href="https://lotusgleaminfotech.com/" target="_blank" rel="noreferrer">
+              Lotus Gleam Infotech
+            </a>
           </p>
         </div>
       </div>

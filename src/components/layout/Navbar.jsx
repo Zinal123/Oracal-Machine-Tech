@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import logo from '../../assets/images/oracle-logo-navbar.png'
 
 const NAV_ITEMS = [
   { label: 'Home', to: '/' },
@@ -19,7 +20,7 @@ export default function Navbar({ scrolled }) {
     <nav className={`navbar navbar-expand-lg navbar-dark${scrolled ? ' scrolled' : ''}`}>
       <div className="container-fluid">
         <Link className="navbar-brand" to="/" onClick={() => setOpen(false)}>
-          <i className="fas fa-cog" /> Oracle Machine Tech
+          <img src={logo} alt="Oracle Machine Tech" className="navbar-logo" />
         </Link>
         <button
           className="navbar-toggler"
