@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oracle Machinery Brochure</title>
+    <style>
+         :root {
+            color-scheme: light;
+            --primary: #0b3d91;
+            --accent: #1d4ed8;
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --text: #1f2937;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .page {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 32px 18px 48px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: #fff;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 18px 30px rgba(11, 61, 145, 0.18);
+        }
+        
+        h1,
+        h2 {
+            margin-top: 0;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 18px;
+        }
+        
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e5eefb;
+        }
+        
+        ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.92rem;
+        }
+        
+        .footer-note {
+            font-size: 0.95rem;
+            color: #4b5563;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <section class="hero">
+            <span class="badge">Oracle Machinery • Product Brochure</span>
+            <h1>Precision CNC & Fiber Laser Solutions</h1>
+            <p>High-performance machines built for productivity, accuracy, and reliable industrial manufacturing.</p>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Why Choose Oracle</h2>
+                <ul>
+                    <li>Advanced CNC and fiber laser systems</li>
+                    <li>Robust build quality for long-term operation</li>
+                    <li>Efficient automation and easy maintenance</li>
+                    <li>Custom solutions for metal fabrication needs</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <h2>Key Benefits</h2>
+                <ul>
+                    <li>High-speed cutting and precision output</li>
+                    <li>Energy-efficient operation and low downtime</li>
+                    <li>Operator-friendly controls and safety features</li>
+                    <li>Strong support, service, and factory visit options</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <h2>Best For</h2>
+                <ul>
+                    <li>Sheet metal fabrication workshops</li>
+                    <li>Industrial production lines</li>
+                    <li>Engineering and manufacturing firms</li>
+                    <li>Export and OEM buyers</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="card" style="margin-top:18px;">
+            <h2>Contact for a Full Brochure</h2>
+            <p>For detailed specifications, pricing, and machine customization options, please contact our sales team or request a factory visit.</p>
+            <p class="footer-note">This brochure is available for download from the product details page.</p>
+        </section>
+    </main>
+</body>
+
+</html>
