@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function Footer({ contactEmail = 'info@oracle-machines.com' }) {
+export default function Footer({ contactEmail = 'info@oraclemachinetech.com' }) {
   const [subscribed, setSubscribed] = useState(false)
   const [email, setEmail] = useState('')
 
@@ -53,7 +53,7 @@ export default function Footer({ contactEmail = 'info@oracle-machines.com' }) {
               GIDC, Karjan, Vadodara, Gujarat - 391240
             </p>
             <p>
-              <i className="fas fa-phone" /> +91-265-230-0000
+              <i className="fas fa-phone" /> <a href="tel:+9107096487806">+91-07096487806</a>
             </p>
             <p>
               <i className="fas fa-envelope" />{' '}

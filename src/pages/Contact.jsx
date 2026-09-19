@@ -21,9 +21,7 @@ const INFO_CARDS = [
     title: 'Phone',
     body: (
       <>
-        <a href="tel:+912652300000">+91-265-230-0000</a>
-        <br />
-        <a href="tel:+912652400000">+91-265-240-0000</a>
+        <a href="tel:+9107096487806">+91-07096487806</a>
       </>
     ),
   },
@@ -33,9 +31,9 @@ const INFO_CARDS = [
     title: 'Email',
     body: (
       <>
-        <a href="mailto:info@oracle-machines.com">info@oracle-machines.com</a>
+        <a href="mailto:info@oraclemachinetech.com">info@oraclemachinetech.com</a>
         <br />
-        <a href="mailto:sales@oracle-machines.com">sales@oracle-machines.com</a>
+        <a href="mailto:sales@oraclemachinetech.com">sales@oraclemachinetech.com</a>
       </>
     ),
   },
@@ -63,7 +61,7 @@ const BUSINESS_HOURS = [
 ]
 
 const EMPTY_FORM = { name: '', company: '', email: '', phone: '', country: '', city: '', product: '', message: '' }
-const CONTACT_EMAIL = 'info@oracle-machines.com'
+const CONTACT_EMAIL = 'info@oraclemachinetech.com'
 
 export default function Contact() {
   usePageMeta('Contact Us | Oracle Machine Tech', 'Contact Oracle Machine Tech - Get in touch for inquiries and support')

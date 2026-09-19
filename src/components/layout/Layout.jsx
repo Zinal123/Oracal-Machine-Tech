@@ -15,8 +15,8 @@ export default function Layout() {
   }, [pathname])
 
   const footerEmail = pathname.startsWith('/careers')
-    ? 'careers@oracle-machines.com'
-    : 'info@oracle-machines.com'
+    ? 'careers@oraclemachinetech.com'
+    : 'info@oraclemachinetech.com'
 
   return (
     <>
