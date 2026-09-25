@@ -72,7 +72,7 @@ const PRODUCT_OPTIONS = [
 
 const EMPTY_FORM = { name: '', company: '', email: '', phone: '', country: '', city: '', product: '', message: '' }
 const CONTACT_EMAIL = 'info@oraclemachinetech.com'
-const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || '/api/contact'
+const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || '/api/contact.php'
 
 export default function Contact() {
   usePageMeta('Contact Us | Oracle Machine Tech', 'Contact Oracle Machine Tech - Get in touch for inquiries and support')
