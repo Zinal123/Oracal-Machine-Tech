@@ -31,8 +31,20 @@ jobs:
 
       - name: Deploy over SSH
         run: |
+          set -x
           mkdir -p ~/.ssh
-          ssh-keyscan -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
-          rsync -avzr --delete --exclude=schoolgroup \
-            -e "ssh -p ${{ secrets.SSH_PORT }}" \
-            dist/ "${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}"
+
+          for i in 1 2 3; do
+            ssh-keyscan -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts && break
+            echo "ssh-keyscan attempt $i failed, retrying in 5s..."
+            sleep 5
+          done
+
+          for i in 1 2 3; do
+            rsync -avzr --delete --exclude=schoolgroup \
+              -e "ssh -p ${{ secrets.SSH_PORT }} -o ConnectTimeout=15 -o StrictHostKeyChecking=no" \
+              dist/ "${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}" && break
+            echo "rsync attempt $i failed, retrying in 5s..."
+            sleep 5
+            if [ "$i" = 3 ]; then exit 1; fi
+          done
