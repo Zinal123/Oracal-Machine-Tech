@@ -19,7 +19,7 @@ export default function Footer({ contactEmail = 'info@oraclemachinetech.com' }) 
           <div className="col-lg-3 col-md-6 footer-section">
             <img src={logo} alt="Oracle Machine Tech" style={{ height: '42px', marginBottom: '1rem' }} />
             <p>
-              Leading manufacturer of CNC and Fiber Laser machines since 2010. Serving global
+              Leading manufacturer of CNC and Fiber Laser machines since 2022. Serving global
               industries with precision and innovation.
             </p>
             <div className="social-links" style={{ justifyContent: 'flex-start' }}>

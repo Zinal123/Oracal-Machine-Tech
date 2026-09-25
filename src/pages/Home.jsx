@@ -5,7 +5,7 @@ import Reveal from '../components/common/Reveal.jsx'
 import SectionHeader from '../components/common/SectionHeader.jsx'
 import StatCounter from '../components/home/StatCounter.jsx'
 import { products } from '../data/products.js'
-import robustArmImg from '../assets/images/robotic-arm.jpg'
+import robustArmImg from '../assets/images/manufacturing-facility.webp'
 
 const STATS = [
   { target: 5, label: 'Years of Experience' },
@@ -142,7 +142,7 @@ export default function Home() {
           <div className="row align-items-center">
             <Reveal as="div" className="col-lg-6">
               <div style={{ height: 400, borderRadius: 8, overflow: 'hidden', background: 'linear-gradient(135deg,#f5f5f5,#e0e0e0)' }}>
-                <img src={robustArmImg} alt="Industrial Robotic Arm" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={robustArmImg} alt="Oracle Machine Tech Manufacturing Facility" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal as="div" className="col-lg-6">
