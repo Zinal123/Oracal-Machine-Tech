@@ -26,7 +26,7 @@ export default function ProductCard({ product, delay = 0 }) {
           <Link to={`/products/${product.id}`} className="btn btn-primary">
             View Details
           </Link>
-          <Link to="/contact" className="btn btn-outline-secondary">
+          <Link to={`/contact?product=${encodeURIComponent(product.name)}`} className="btn btn-outline-secondary">
             Quote
           </Link>
         </div>

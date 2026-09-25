@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import './Contact.css'
 import usePageMeta from '../hooks/usePageMeta.js'
 import Reveal from '../components/common/Reveal.jsx'
@@ -60,52 +61,68 @@ const BUSINESS_HOURS = [
   { label: 'Support Hotline', value: '24/7 Emergency Support' },
 ]
 
+const PRODUCT_OPTIONS = [
+  { value: 'Fiber Laser Cutting', label: 'Sheet Fiber Laser Cutting' },
+  { value: 'Tube Fiber Laser', label: 'Tube Fiber Laser Cutting' },
+  { value: 'CNC Plasma', label: 'CNC Plasma Cutting' },
+  { value: 'CNC Bending', label: '5 Axis CNC Bending' },
+  { value: 'Welding', label: '5 Axis Robotic Welding' },
+  { value: 'Other', label: 'Other' },
+]
+
 const EMPTY_FORM = { name: '', company: '', email: '', phone: '', country: '', city: '', product: '', message: '' }
 const CONTACT_EMAIL = 'info@oraclemachinetech.com'
+const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || '/api/contact'
 
 export default function Contact() {
   usePageMeta('Contact Us | Oracle Machine Tech', 'Contact Oracle Machine Tech - Get in touch for inquiries and support')
 
-  const [form, setForm] = useState(EMPTY_FORM)
-  const [status, setStatus] = useState(null) // 'success' | 'error' | null
+  const [searchParams] = useSearchParams()
+  const requestedProduct = searchParams.get('product')?.trim() || ''
+
+  const [form, setForm] = useState(() => (requestedProduct ? { ...EMPTY_FORM, product: requestedProduct } : EMPTY_FORM))
+  const [status, setStatus] = useState(null) // 'sending' | 'success' | 'error' | null
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const productOptions = useMemo(() => {
+    if (!requestedProduct || PRODUCT_OPTIONS.some((o) => o.value === requestedProduct)) return PRODUCT_OPTIONS
+    return [{ value: requestedProduct, label: requestedProduct }, ...PRODUCT_OPTIONS]
+  }, [requestedProduct])
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const { name, email, phone, message } = form
 
-    if (!name.trim() || !email.trim() || !phone.trim() || !message.trim()) {
-      setStatus('error')
-      return
-    }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email.trim())) {
+    if (!name.trim() || !email.trim() || !phone.trim() || !message.trim() || !emailRegex.test(email.trim())) {
       setStatus('error')
+      setErrorMessage('Please fill in all required fields correctly.')
       return
     }
 
-    const subject = `Inquiry from ${name}${form.product ? ` - ${form.product}` : ''}`
-    const bodyLines = [
-      `Name: ${name}`,
-      form.company && `Company: ${form.company}`,
-      `Email: ${email}`,
-      `Phone: ${phone}`,
-      form.country && `Country: ${form.country}`,
-      form.city && `City: ${form.city}`,
-      form.product && `Interested Product: ${form.product}`,
-      '',
-      'Message:',
-      message,
-    ].filter(Boolean)
+    setStatus('sending')
 
-    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`
-    window.location.href = mailtoUrl
+    try {
+      const res = await fetch(CONTACT_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const data = await res.json().catch(() => null)
 
-    setStatus('success')
-    setForm(EMPTY_FORM)
-    setTimeout(() => setStatus((s) => (s === 'success' ? null : s)), 5000)
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.error || 'Could not send your message right now. Please try again shortly.')
+      }
+
+      setStatus('success')
+      setForm(EMPTY_FORM)
+      setTimeout(() => setStatus((s) => (s === 'success' ? null : s)), 5000)
+    } catch (err) {
+      setStatus('error')
+      setErrorMessage(err.message || 'Could not send your message right now. Please try again shortly.')
+    }
   }
 
   return (
@@ -139,16 +156,23 @@ export default function Contact() {
               Fill out the form below and we&apos;ll get back to you within 24 hours.
             </p>
 
+            {requestedProduct && status !== 'success' && (
+              <div className="alert-message success">
+                <i className="fas fa-info-circle" />
+                Requesting a quote for <strong>{requestedProduct}</strong>. Fill in your details below and we&apos;ll get back to you.
+              </div>
+            )}
+
             {status === 'success' && (
               <div className="alert-message success">
                 <i className="fas fa-check-circle" />
-                Thanks! We&apos;ve opened your email app with your message ready to send to {CONTACT_EMAIL} — just hit send.
+                Thanks! Your message has been sent to {CONTACT_EMAIL} — we&apos;ll get back to you within 24 hours.
               </div>
             )}
             {status === 'error' && (
               <div className="alert-message error">
                 <i className="fas fa-exclamation-circle" />
-                Please fill in all required fields correctly.
+                {errorMessage}
               </div>
             )}
 
@@ -191,12 +215,11 @@ export default function Contact() {
                   <label className="form-label">Interested Product</label>
                   <select className="form-select" value={form.product} onChange={update('product')}>
                     <option value="">Select Product</option>
-                    <option value="Fiber Laser Cutting">Sheet Fiber Laser Cutting</option>
-                    <option value="Tube Fiber Laser">Tube Fiber Laser Cutting</option>
-                    <option value="CNC Plasma">CNC Plasma Cutting</option>
-                    <option value="CNC Bending">5 Axis CNC Bending</option>
-                    <option value="Welding">5 Axis Robotic Welding</option>
-                    <option value="Other">Other</option>
+                    {productOptions.map((o) => (
+                      <option key={o.value} value={o.value}>
+                        {o.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="col-12 form-group">
@@ -213,8 +236,8 @@ export default function Contact() {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <button type="submit" className="btn btn-primary">
-                  <i className="fas fa-paper-plane" /> Send Message
+                <button type="submit" className="btn btn-primary" disabled={status === 'sending'}>
+                  <i className="fas fa-paper-plane" /> {status === 'sending' ? 'Sending...' : 'Send Message'}
                 </button>
                 <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="btn-whatsapp">
                   <i className="fab fa-whatsapp" /> WhatsApp
