@@ -19,6 +19,12 @@ export default function ProductDetails() {
   const related = product ? getRelatedProducts(product.id) : []
   const [slide, setSlide] = useState(0)
   const [openFaq, setOpenFaq] = useState(0)
+  const [prevId, setPrevId] = useState(id)
+
+  if (prevId !== id) {
+    setPrevId(id)
+    setSlide(0)
+  }
 
   usePageMeta(
     product ? `${product.name} | Oracle Machine Tech` : 'Product | Oracle Machine Tech',
@@ -26,7 +32,6 @@ export default function ProductDetails() {
   )
 
   useEffect(() => {
-    setSlide(0)
     window.scrollTo({ top: 0 })
   }, [id])
 

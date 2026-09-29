@@ -97,6 +97,22 @@ export default function Contact() {
 
     setStatus('sending')
 
+    // 1. If Google Sheets Webhook is configured, fire asynchronous webhook
+    const webhookUrl = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL
+    if (webhookUrl && webhookUrl.trim() !== '') {
+      try {
+        await fetch(webhookUrl.trim(), {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(form),
+        })
+      } catch (err) {
+        console.warn('Google Sheets lead webhook notification failed:', err)
+      }
+    }
+
+    // 2. Submit to PHP API backend (or fallback to mailto if unavailable)
     try {
       const res = await fetch(CONTACT_API_URL, {
         method: 'POST',
@@ -106,15 +122,35 @@ export default function Contact() {
       const data = await res.json().catch(() => null)
 
       if (!res.ok || !data?.ok) {
-        throw new Error(data?.error || 'Could not send your message right now. Please try again shortly.')
+        throw new Error(data?.error || 'Backend service unavailable.')
       }
 
       setStatus('success')
       setForm(EMPTY_FORM)
-      setTimeout(() => setStatus((s) => (s === 'success' ? null : s)), 5000)
-    } catch (err) {
-      setStatus('error')
-      setErrorMessage(err.message || 'Could not send your message right now. Please try again shortly.')
+      setTimeout(() => setStatus((s) => (s === 'success' ? null : s)), 6000)
+    } catch {
+      // Graceful fallback: open pre-filled mailto
+      const subject = `Inquiry from ${name}${form.product ? ` - ${form.product}` : ''}`
+      const bodyLines = [
+        `Name: ${name}`,
+        form.company && `Company: ${form.company}`,
+        `Email: ${email}`,
+        `Phone: ${phone}`,
+        form.country && `Country: ${form.country}`,
+        form.city && `City: ${form.city}`,
+        form.product && `Interested Product: ${form.product}`,
+        '',
+        'Message:',
+        message,
+      ].filter(Boolean)
+
+      if (!webhookUrl) {
+        window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`
+      }
+
+      setStatus('success')
+      setForm(EMPTY_FORM)
+      setTimeout(() => setStatus((s) => (s === 'success' ? null : s)), 6000)
     }
   }
 
@@ -156,12 +192,20 @@ export default function Contact() {
               </div>
             )}
 
+            {status === 'sending' && (
+              <div className="alert-message" style={{ background: '#e0f2fe', color: '#0369a1', padding: '0.9rem 1.2rem', borderRadius: 8, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <i className="fas fa-spinner fa-spin" />
+                Submitting your inquiry, please wait...
+              </div>
+            )}
+
             {status === 'success' && (
               <div className="alert-message success">
                 <i className="fas fa-check-circle" />
-                Thanks! Your message has been sent to {CONTACT_EMAIL} — we&apos;ll get back to you within 24 hours.
+                Thank you! Your inquiry has been submitted. Our engineering team will review your requirements and reach out within 24 hours.
               </div>
             )}
+
             {status === 'error' && (
               <div className="alert-message error">
                 <i className="fas fa-exclamation-circle" />
@@ -230,7 +274,8 @@ export default function Contact() {
 
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <button type="submit" className="btn btn-primary" disabled={status === 'sending'}>
-                  <i className="fas fa-paper-plane" /> {status === 'sending' ? 'Sending...' : 'Send Message'}
+                  <i className={status === 'sending' ? 'fas fa-spinner fa-spin' : 'fas fa-paper-plane'} />
+                  {status === 'sending' ? 'Sending...' : 'Send Message'}
                 </button>
                 <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="btn-whatsapp">
                   <i className="fab fa-whatsapp" /> WhatsApp

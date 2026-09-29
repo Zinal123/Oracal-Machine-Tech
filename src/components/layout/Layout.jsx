@@ -6,6 +6,8 @@ import Footer from './Footer.jsx'
 import BackToTop from './BackToTop.jsx'
 import useScrollEffects from '../../hooks/useScrollEffects.js'
 
+import AIAssistantModal from '../ai/AIAssistantModal.jsx'
+
 export default function Layout() {
   const { scrolled, showBackToTop } = useScrollEffects()
   const { pathname } = useLocation()
@@ -25,6 +27,7 @@ export default function Layout() {
       <Outlet />
       <Footer contactEmail={footerEmail} />
       <BackToTop visible={showBackToTop} />
+      <AIAssistantModal />
     </>
   )
 }
