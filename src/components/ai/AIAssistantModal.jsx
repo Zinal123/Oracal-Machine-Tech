@@ -103,23 +103,11 @@ export default function AIAssistantModal() {
             </div>
 
             <div className="ai-modal-body" ref={bodyRef}>
-              {messages.map((m, idx) => (
-                <div key={idx} className={`ai-message ${m.sender}`}>
-                  <div className="ai-bubble">{m.text}</div>
+              {/* Quick Prompt Chips & Actions at Top */}
+              <div className="ai-top-prompts-panel">
+                <div className="ai-top-prompts-header">
+                  <small><i className="fas fa-lightbulb" style={{ color: 'var(--accent-orange)' }} /> Suggested Questions:</small>
                 </div>
-              ))}
-
-              {loading && (
-                <div className="ai-typing-indicator">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              )}
-
-              {/* Quick Prompt Chips */}
-              <div style={{ marginTop: '0.5rem' }}>
-                <small style={{ color: '#64748b', fontWeight: 600 }}>Suggested Questions:</small>
                 <div className="ai-quick-chips">
                   {QUICK_PROMPTS.map((prompt, i) => (
                     <button
@@ -132,25 +120,41 @@ export default function AIAssistantModal() {
                     </button>
                   ))}
                 </div>
+
+                <div className="ai-chat-actions">
+                  <a
+                    href="https://wa.me/919876543210"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ai-chat-action-btn whatsapp"
+                  >
+                    <i className="fab fa-whatsapp" /> WhatsApp Sales
+                  </a>
+                  <Link
+                    to="/contact"
+                    className="ai-chat-action-btn contact"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <i className="fas fa-envelope" /> Request Quote
+                  </Link>
+                </div>
               </div>
 
-              {/* Quick Actions */}
-              <div className="ai-chat-actions">
-                <a
-                  href="https://wa.me/919876543210"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="ai-chat-action-btn whatsapp"
-                >
-                  <i className="fab fa-whatsapp" /> WhatsApp Sales
-                </a>
-                <Link
-                  to="/contact"
-                  className="ai-chat-action-btn contact"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <i className="fas fa-envelope" /> Request Quote
-                </Link>
+              {/* Chat Messages flow at the bottom */}
+              <div className="ai-messages-list">
+                {messages.map((m, idx) => (
+                  <div key={idx} className={`ai-message ${m.sender}`}>
+                    <div className="ai-bubble">{m.text}</div>
+                  </div>
+                ))}
+
+                {loading && (
+                  <div className="ai-typing-indicator">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                )}
               </div>
             </div>
 
