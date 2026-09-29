@@ -26,11 +26,10 @@ export default function AIAssistantModal() {
   const [inputValue, setInputValue] = useState('')
   const [loading, setLoading] = useState(false)
   const bodyRef = useRef(null)
+  const messagesEndRef = useRef(null)
 
   useEffect(() => {
-    if (bodyRef.current) {
-      bodyRef.current.scrollTop = bodyRef.current.scrollHeight
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
 
   const handleSend = async (textToSend) => {
@@ -155,6 +154,7 @@ export default function AIAssistantModal() {
                     <span />
                   </div>
                 )}
+                <div ref={messagesEndRef} />
               </div>
             </div>
 
