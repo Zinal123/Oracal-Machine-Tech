@@ -54,13 +54,6 @@ const INFO_CARDS = [
   },
 ]
 
-const BUSINESS_HOURS = [
-  { label: 'Monday - Friday', value: '9:00 AM - 6:00 PM IST' },
-  { label: 'Saturday', value: '10:00 AM - 4:00 PM IST' },
-  { label: 'Sunday', value: 'Closed' },
-  { label: 'Support Hotline', value: '24/7 Emergency Support' },
-]
-
 const PRODUCT_OPTIONS = [
   { value: 'Fiber Laser Cutting', label: 'Sheet Fiber Laser Cutting' },
   { value: 'Tube Fiber Laser', label: 'Tube Fiber Laser Cutting' },
@@ -245,39 +238,6 @@ export default function Contact() {
               </div>
             </form>
           </Reveal>
-        </div>
-      </section>
-
-      <section className="section-padding" style={{ background: 'var(--bg-light)' }}>
-        <div className="container">
-          <h2 className="section-title mb-4">Our Location</h2>
-          <Reveal as="div" className="map-container">
-            <i className="fas fa-map-marked-alt" />
-          </Reveal>
-          <p className="text-center mt-3" style={{ color: '#666' }}>
-            <i className="fas fa-info-circle" /> Map integration placeholder. Click on our WhatsApp or call us for
-            directions.
-          </p>
-        </div>
-      </section>
-
-      <section className="section-padding">
-        <div className="container">
-          <h2 className="section-title mb-4">Business Hours</h2>
-          <div className="col-lg-8 mx-auto">
-            <div className="hours-card">
-              <div className="row g-3">
-                {BUSINESS_HOURS.map((h) => (
-                  <div className="col-md-6" key={h.label}>
-                    <div className="hours-item">
-                      <strong>{h.label}</strong>
-                      {h.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </>
